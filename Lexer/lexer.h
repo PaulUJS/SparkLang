@@ -17,7 +17,7 @@ typedef enum {
     // Symbols
     LEFTPAREN,
     RIGHTPAREN,
-    COLON,
+    COLONCOLON,
     SEMICOLON,
 
     // Operators
@@ -25,6 +25,8 @@ typedef enum {
     MINUS,
     STAR,
     SLASH,
+    BANG,
+    BANGEQUAL,
     EQUAL,
     EQUALEQUAL,
     LESS,
@@ -39,7 +41,8 @@ typedef struct {
     size_t line;
 } TokenInfo;
 
-void tokenize();
-bool is_at_end(size_t index, size_t length);
+TokenInfo* tokenize();
+bool is_at_end(size_t index, size_t* length);
+void print_tokens(TokenInfo* arr, size_t index);
 
 #endif
