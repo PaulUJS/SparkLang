@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "Lexer/lexer.h"
+#include "Parser/parser.h"
 
 int main() 
 {

@@ -1,4 +1,4 @@
-OBJS = spark.c Lexer/* 
+OBJS = spark.c Lexer/* Parser/* AST/*
 CC = gcc
 
 COMPILER_FLAGS = -w
