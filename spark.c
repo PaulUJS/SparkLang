@@ -7,6 +7,11 @@
 int main() 
 {
     TokenInfo* tokens = tokenize();
+    Parser* parser = init_parser(tokens);
+    AST* ast = parse(parser);
+
+    ast_print(ast);
     free(tokens);
+    ast_free(ast);
     return 0;
 }

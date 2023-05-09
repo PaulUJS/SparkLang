@@ -4,32 +4,30 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-typedef struct AST AST;
+#define AST_NEW(tag, ...) \
+  ast_new((AST){tag, {.tag=(struct tag){__VA_ARGS__}}})
 
-typedef struct AST {
-    enum {
-        AST_FUNCTION_CALL,
-        AST_VAR_DEF,
-        AST_VAR,
-        AST_STRING,
-    } type;
+typedef struct AST AST; // Forward reference
 
-    /* Variable definition */
-    char* var_def_name;
-    AST* var_def_val;
+struct AST {
+  enum {
+    AST_NUMBER,
+    AST_ADD,
+    AST_SUB,
+    AST_MUL,
+    AST_DIV,
+  } tag;
+  union {
+    struct AST_NUMBER { int number; } AST_NUMBER;
+    struct AST_ADD { AST *left; AST *right; } AST_ADD;
+    struct AST_SUB { AST *left; AST *right; } AST_SUB;
+    struct AST_MUL { AST *left; AST *right; } AST_MUL;
+    struct AST_DIV { AST *left; AST *right; } AST_DIV;
+  } data;
+};
 
-    /* Var */
-    char* var_name;
-    
-    /* function call */
-    char* function_call_name;
-    AST** function_call_args;
-    size_t function_call_args_size;
-
-    /* string */
-    char* str_val;
-} AST;
-
-AST* init_ast(int type);
+AST *ast_new(AST ast);
+void ast_free(AST *ptr);
+void ast_print(AST *ptr);
 
 #endif

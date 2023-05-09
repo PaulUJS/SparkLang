@@ -1,23 +1,60 @@
 #include "AST.h"
 
-AST* init_ast(int type)
+AST *ast_new(AST ast)
 {
-    AST* ast = malloc(sizeof(AST));
-    ast->type = type;
+    AST *ptr = malloc(sizeof(AST));
+    if (ptr) *ptr = ast;
+    return ptr;
+}
 
-    /* Variable definition */
-    ast->var_def_name = (void*) 0;
-    ast->var_def_val = (void*) 0;
+void ast_free(AST *ptr) {
+  AST ast = *ptr;
+  switch (ast.tag) {
+    case AST_NUMBER: {
+      struct AST_NUMBER data = ast.data.AST_NUMBER;
+      break;
+    }
+    case AST_ADD: {
+      struct AST_ADD data = ast.data.AST_ADD;
+      ast_free(data.left);
+      ast_free(data.right);
+      break;
+    }
+    case AST_MUL: {
+      struct AST_MUL data = ast.data.AST_MUL;
+      ast_free(data.left);
+      ast_free(data.right);
+      break;
+    }
+  } 
+  free(ptr);
+}
 
-    /* Var */
-    ast->var_name = (void*) 0;
-    
-    /* function call */
-    ast->function_call_name = (void*) 0;
-    ast->function_call_args = (void*) 0;
-    ast->function_call_args_size = (void*) 0;
-
-    /* string */
-    ast->str_val = (void*) 0;
-    return ast;
+void ast_print(AST *ptr) {
+  AST ast = *ptr;
+  switch (ast.tag) {
+    case AST_NUMBER: {
+      struct AST_NUMBER data = ast.data.AST_NUMBER;
+      printf("%d", data.number);
+      return;
+    }
+    case AST_ADD: {
+      struct AST_ADD data = ast.data.AST_ADD;
+      printf("(");
+      ast_print(data.left);
+      printf(" + ");
+      ast_print(data.right);
+      printf(")");
+      return;
+    }
+    case AST_MUL: {
+      struct AST_MUL data = ast.data.AST_MUL;
+      printf("(");
+      ast_print(data.left);
+      printf(" * ");
+      ast_print(data.right);
+      printf(")");
+      return;
+    }
+  }
 }
