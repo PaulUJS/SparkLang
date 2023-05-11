@@ -38,9 +38,7 @@ AST* add(Parser* parser)
     while (match_tokens(parser, PLUS))
     {
         AST* right = subtract(parser);
-        ast = AST_NEW(AST_ADD, 
-                AST_NEW(AST_NUMBER, right),
-                AST_NEW(AST_NUMBER, ast));
+        ast = AST_NEW(AST_ADD, right, ast);
     }
     return ast;
 }
@@ -51,9 +49,7 @@ AST* subtract(Parser* parser)
     while (match_tokens(parser, MINUS))
     {
         AST* right = multiply(parser);
-        ast = AST_NEW(AST_SUB,
-                AST_NEW(AST_NUMBER, right),
-                AST_NEW(AST_NUMBER, ast));
+        ast = AST_NEW(AST_SUB, right, ast);
     }
     return ast;
 
@@ -65,9 +61,7 @@ AST* multiply(Parser* parser)
     while (match_tokens(parser, STAR))
     {
         AST* right = divide(parser);
-        ast = AST_NEW(AST_MUL,
-                AST_NEW(AST_NUMBER, right),
-                AST_NEW(AST_NUMBER, ast));
+        ast = AST_NEW(AST_MUL, right, ast);
     }
     return ast;
 }
@@ -78,9 +72,7 @@ AST* divide(Parser* parser)
     while (match_tokens(parser, SLASH))
     {
         AST* right = unary(parser);
-        ast = AST_NEW(AST_DIV,
-                AST_NEW(AST_NUMBER, right),
-                AST_NEW(AST_NUMBER, ast));
+        ast = AST_NEW(AST_DIV, right, ast);
     }
     return ast;
 }
@@ -138,4 +130,31 @@ bool at_end(Parser* parser)
 TokenInfo peek(Parser* parser)
 {
     return parser->tokens[parser->index];
+}
+
+int num_match(NumLiteral num)
+{
+    switch (num)
+    {
+        case ZERO:
+            return 0;
+        case ONE:
+            return 1;
+        case TWO:
+            return 2;
+        case THREE:
+            return 3;
+        case FOUR:
+            return 4;
+        case FIVE:
+            return 5;
+        case SIX:
+            return 6;
+        case SEVEN:
+            return 7;
+        case EIGHT:
+            return 8;
+        case NINE:
+            return 9;
+    }
 }

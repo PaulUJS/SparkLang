@@ -33,4 +33,6 @@ TokenInfo previous(Parser* parser);
 TokenInfo advance(Parser* parser);
 TokenInfo peek(Parser* parser);
 
+int num_match(NumLiteral num);
+
 #endif
